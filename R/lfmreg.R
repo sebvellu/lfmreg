@@ -3,7 +3,7 @@
 lfmreg <- function(
 	yvls, dvls, xvls, sgmh, krnl = "ba", band = "and",
     rmat = NULL, rvec = NULL, wght = NULL, 
-	dtrn = NULL, step = 2, slct = 1
+	dtrn = NULL, step = 2, mvng = TRUE
 ) {
 	zvls <- cbind(dvls, xvls)
 	dzdx <- rbind(matrix(0, ncol(dvls), ncol(xvls)), diag(ncol(xvls)))
@@ -21,6 +21,6 @@ lfmreg <- function(
         wght = wght, 
         dtrn = dtrn,
         step = step,
-		slct = slct
+		mvng = mvng
     ))
 }

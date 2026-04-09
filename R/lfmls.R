@@ -3,7 +3,7 @@
 lfmls <- function(
 	yvls, zvls, xvls, sgmh, dzdx, krnl = "ba", band = "and",
     rmat = NULL, rvec = NULL, wght = NULL, 
-	dtrn = NULL, step = 2, slct = 1
+	dtrn = NULL, step = 2, mvng = TRUE
 ) {
 	yvls <- as.matrix(yvls)
 	zvls <- as.matrix(zvls)
@@ -27,7 +27,7 @@ lfmls <- function(
 		wght = NULL,
 		dtrn = dtrn,
 		step = step,
-		slct = slct
+		mvng = mvng
 	)
 	vvls <- rslt$vvls
 	long <- rslt$long

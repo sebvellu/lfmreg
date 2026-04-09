@@ -1,12 +1,12 @@
 tvlrvarstd <- function(
-	yvls, zvls, vvls, sgmh, slct, krnl = "ba", band = "band"
+	yvls, zvls, vvls, sgmh, krnl = "ba", band = "band", mvng = TRUE
 ) {
 	yvls <- as.matrix(yvls)
 	#
 	rols <- cbind(qr.resid(qr(zvls), yvls)[-1, ], vvls)
 	#rols <- yvls - zvls %*% qr_safe_solve(zvls, yvls)
 	#rols <- cbind(rols[-1, ], vvls)
-    lrvr <- lrvar::tvlrvarmult(rols, sgmh, slct, krnl, band)
+    lrvr <- lrvar::tvlrvarmult(rols, sgmh, krnl, band, mvng)
 	long <- lrvr$longvar
 	#
 	xidx <- ncol(yvls) + seq_len(ncol(vvls))

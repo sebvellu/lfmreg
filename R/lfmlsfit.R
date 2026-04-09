@@ -3,7 +3,7 @@
 lfmlsfit <- function(
 	yvls, zvls, xvls, sgmh, dzdx, krnl = "ba", band = "and",
     rmat = NULL, rvec = NULL, wght = NULL, 
-	dtrn = NULL, step = 2, slct = 1
+	dtrn = NULL, step = 2, mvng = TRUE
 ) {
 	yvls <- as.matrix(yvls)
 	zvls <- as.matrix(zvls)
@@ -15,7 +15,7 @@ lfmlsfit <- function(
 	xnum <- ncol(xvls)
 	#
 	vvls <- helperkit::diffdtrnd(xvls, dtrn, step)
-	lrvr <- tvlrvarstd(yvls, zvls, vvls, sgmh, slct, krnl, band)
+	lrvr <- tvlrvarstd(yvls, zvls, vvls, sgmh, krnl, band, mvng)
     lrso <- lrvr$lrso
     clrv <- lrvr$clrv
     lrvr <- lrvr$lrvr
