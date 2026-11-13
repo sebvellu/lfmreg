@@ -1,9 +1,9 @@
 #' @export
 
 lfmls <- function(
-	yvls, zvls, xvls, sgmh, dzdx, krnl = "ba", band = "and",
+	yvls, zvls, xvls, wndw, dzdx, krnl = "ba", band = "and",
     rmat = NULL, rvec = NULL, wght = NULL, 
-	dtrn = NULL, step = 2, mvng = TRUE
+	dtrn = NULL, step = 2, slct = 1
 ) {
 	yvls <- as.matrix(yvls)
 	zvls <- as.matrix(zvls)
@@ -18,7 +18,7 @@ lfmls <- function(
 		yvls = yvls, 
 		zvls = zvls,
 		xvls = xvls,
-		sgmh = sgmh,
+		wndw = wndw,
 		dzdx = dzdx,
         krnl = krnl,
         band = band,
@@ -27,7 +27,7 @@ lfmls <- function(
 		wght = NULL,
 		dtrn = dtrn,
 		step = step,
-		mvng = mvng
+		slct = slct
 	)
 	vvls <- rslt$vvls
 	long <- rslt$long
@@ -42,7 +42,7 @@ lfmls <- function(
 	rsds <- rslt$rsds
 	ufit <- rslt$ufit
 	ursd <- rslt$ursd
-	bidx <- rslt$bidx
+	blck <- rslt$blck
 	#
 	cvls <- wvls
 	wnum <- ncol(wvls)
@@ -53,7 +53,7 @@ lfmls <- function(
 	meat <- 0
 	for (indx in seq_len(nrow(wvls))) {
 		#bidx <- tvblockidx(indx, lgth, mval)
-		temp <- helperkit::array3tomat(clrv, bidx$lidx[indx])
+		temp <- helperkit::array3tomat(clrv, blck$indx[indx])
 		meat <- meat + (temp %x% tcrossprod(wvls[indx, ]))
 	}
 	cvrs <- bred %*% (meat %*% bred)

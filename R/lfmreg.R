@@ -1,9 +1,9 @@
 #' @export
 
 lfmreg <- function(
-	yvls, dvls, xvls, sgmh, krnl = "ba", band = "and",
+	yvls, dvls, xvls, wndw, krnl = "ba", band = "and",
     rmat = NULL, rvec = NULL, wght = NULL, 
-	dtrn = NULL, step = 2, mvng = TRUE
+	dtrn = NULL, step = 2, slct = 1
 ) {
 	zvls <- cbind(dvls, xvls)
 	dzdx <- rbind(matrix(0, ncol(dvls), ncol(xvls)), diag(ncol(xvls)))
@@ -12,7 +12,7 @@ lfmreg <- function(
         yvls = yvls,
         zvls = zvls,
         xvls = xvls, 
-		sgmh = sgmh,
+		wndw = wndw,
         dzdx = dzdx,
         krnl = krnl,
         band = band,
@@ -21,6 +21,6 @@ lfmreg <- function(
         wght = wght, 
         dtrn = dtrn,
         step = step,
-		mvng = mvng
+		slct = slct
     ))
 }

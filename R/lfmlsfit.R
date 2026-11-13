@@ -1,9 +1,9 @@
 #' @export
 
 lfmlsfit <- function(
-	yvls, zvls, xvls, sgmh, dzdx, krnl = "ba", band = "and",
+	yvls, zvls, xvls, wndw, dzdx, krnl = "ba", band = "and",
     rmat = NULL, rvec = NULL, wght = NULL, 
-	dtrn = NULL, step = 2, mvng = TRUE
+	dtrn = NULL, step = 2, slct = 1
 ) {
 	yvls <- as.matrix(yvls)
 	zvls <- as.matrix(zvls)
@@ -15,17 +15,17 @@ lfmlsfit <- function(
 	xnum <- ncol(xvls)
 	#
 	vvls <- helperkit::diffdtrnd(xvls, dtrn, step)
-	lrvr <- tvlrvarstd(yvls, zvls, vvls, sgmh, krnl, band, mvng)
+	lrvr <- tvlrvarstd(yvls, zvls, vvls, wndw, krnl, band, slct)
     lrso <- lrvr$lrso
     clrv <- lrvr$clrv
     lrvr <- lrvr$lrvr
-	mval <- lrvr$mval
+	blck <- lrvr$blck
 	#
 	xidx <- ynum + 1:xnum
 	yidx <- 1:ynum
 	#
-	bico <- array(NA_real_, c(xnum, ynum, mval))
-	for (indx in seq_len(mval)) {
+	bico <- array(NA_real_, c(xnum, ynum, blck$blck))
+	for (indx in seq_len(blck$blck)) {
 		temp <- lrvr$deltvar[xidx, xidx, indx] %*% lrso[, , indx]
 		temp <- lrvr$deltvar[xidx, yidx, indx] - temp
 		bico[, , indx] <- temp
@@ -35,10 +35,9 @@ lfmlsfit <- function(
 	#
 	ymod <- yvls[-1, , drop = FALSE]
 	yadj <- matrix(NA_real_, lgth - 1, ynum)
-	bidx <- tvblockidx(lgth, mval)
 	for (indx in seq_len(lgth - 1)) {
 		#bidx <- tvblockidx(indx, lgth, mval) # not indx - 1, since t = 2,...,T not t=1,...,T, indx = t + 1!!
-		temp <- vvls[indx, , drop = FALSE] %*% lrso[, , bidx$lidx[indx]]
+		temp <- vvls[indx, , drop = FALSE] %*% lrso[, , blck$indx[indx]]
 		yadj[indx, ] <- ymod[indx, , drop = FALSE] - temp
 	}
 	wvls <- zvls[-1, , drop = FALSE]
@@ -82,7 +81,7 @@ lfmlsfit <- function(
         long = lrvr$longvar,
         clrv = clrv,
         lrso = lrso,
-		bidx = bidx,
+		blck = blck,
         #
         vvls = vvls,
         #
