@@ -16,10 +16,10 @@ lfmlsfit <- function(
 	#
 	vvls <- helperkit::diffdtrnd(xvls, dtrn, step)
 	lrvr <- tvlrvarstd(yvls, zvls, vvls, wndw, krnl, band, slct)
+    blck <- lrvr$blck
     lrso <- lrvr$lrso
     clrv <- lrvr$clrv
     lrvr <- lrvr$lrvr
-	blck <- lrvr$blck
 	#
 	xidx <- ynum + 1:xnum
 	yidx <- 1:ynum
